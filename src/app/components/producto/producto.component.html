@@ -1,0 +1,114 @@
+<div class="d-flex flex-column mt-4">
+  <div class="card align-self-center w-50">
+    <h4 class="card-header text-center">Lista de Productos</h4>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Id.</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Fecha creacion</th>
+            <th scope="col">Estado</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (producto of productos; track producto) {
+            <tr>
+              <th scope="row">{{ producto.id }}</th>
+              <td>{{ producto.nombre }}</td>
+              <td>{{ producto.descripcion }}</td>
+              <td>{{ producto.precio }}</td>
+              <td>{{ producto.fechaCreacion | date: 'short' }}</td>
+              <td>{{ producto.estado }}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-primary me-1" (click)="editProducto(producto)">
+                  Edit
+                </button>
+                <button type="button" class="btn btn-sm btn-danger" (click)="removeProducto(producto)">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer text-center">
+      <button type="button" class="btn btn-info" (click)="addProducto()">
+        Agregar Producto
+      </button>
+    </div>
+  </div>
+
+  @if (mode !== ModeEnum.NON) {
+    <div class="card align-self-center w-50 mt-4">
+      <h4 class="card-header text-center">Agregar/Editar Producto</h4>
+      <div class="card-body">
+        <form [formGroup]="form">
+          <div class="mb-3 row">
+            <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+            <div class="col-sm-10">
+              <input type="text" id="nombre" placeholder="Nombre" formControlName="nombre" class="form-control"
+                [class.is-invalid]="form.controls.nombre.invalid && form.controls.nombre.touched" />
+              <div *ngIf="form.controls.nombre.invalid && form.controls.nombre.touched" class="invalid-feedback">
+                Nombre es requerido.
+              </div>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="descripcion" class="col-sm-2 col-form-label">Descripcion</label>
+            <div class="col-sm-10">
+              <input type="text" id="descripcion" placeholder="Descripcion" formControlName="descripcion" class="form-control"
+                [class.is-invalid]="form.controls.descripcion.invalid && form.controls.descripcion.touched" />
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="precio" class="col-sm-2 col-form-label">Precio</label>
+            <div class="col-sm-10">
+              <input type="number" id="precio" placeholder="precio" formControlName="precio" class="form-control"
+                [class.is-invalid]="form.controls.precio.invalid && form.controls.precio.touched" />
+              <div *ngIf="form.controls.precio.invalid && form.controls.precio.touched" class="invalid-feedback">
+                Precio es requerido y debe ser mayor que cero.
+              </div>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="fechaCreacion" class="col-sm-2 col-form-label">Fecha Creacion</label>
+            <div class="col-sm-10">
+              <input type="datetime-local" id="fechaCreacion" formControlName="fechaCreacion" class="form-control"
+                [class.is-invalid]="form.controls.fechaCreacion.invalid && form.controls.fechaCreacion.touched" />
+              <div *ngIf="form.controls.fechaCreacion.invalid && form.controls.fechaCreacion.touched" class="invalid-feedback">
+                Fecha de creación es requerida.
+              </div>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="estado" class="col-sm-2 col-form-label">Estado</label>
+            <div class="col-sm-10">
+              <select id="estado" formControlName="estado" class="form-control"
+                [class.is-invalid]="form.controls.estado.invalid && form.controls.estado.touched">
+                <option value="" disabled selected>Seleccionar estado</option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
+              <div *ngIf="form.controls.estado.invalid && form.controls.estado.touched" class="invalid-feedback">
+                Estado es requerido.
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer d-flex justify-content-end">
+        <button type="button" class="btn btn-sm btn-success me-1" (click)="saveProducto()">
+          Submit
+        </button>
+        <button type="button" class="btn btn-sm btn-warning" (click)="cancel()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  }
+</div>

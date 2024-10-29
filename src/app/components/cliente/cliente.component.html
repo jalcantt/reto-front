@@ -1,0 +1,77 @@
+<!-- cliente.component.html -->
+<div class="d-flex flex-column mt-4">
+    <div class="card align-self-center w-50">
+      <h4 class="card-header text-center">Lista de Clientes</h4>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Id.</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Email</th>
+              <th scope="col">Teléfono</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cliente of clientes">
+              <th scope="row">{{ cliente.id }}</th>
+              <td>{{ cliente.nombre }}</td>
+              <td>{{ cliente.email }}</td>
+              <td>{{ cliente.telefono }}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-primary me-1" (click)="editCliente(cliente)">Editar</button>
+                <button type="button" class="btn btn-sm btn-danger" (click)="removeCliente(cliente)">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer text-center">
+        <button type="button" class="btn btn-info" (click)="addCliente()">Agregar Cliente</button>
+      </div>
+    </div>
+  
+    <div *ngIf="mode !== ModeEnum.NON" class="card align-self-center w-50 mt-4">
+      <h4 class="card-header text-center">Agregar/Editar Cliente</h4>
+      <div class="card-body">
+        <form [formGroup]="form">
+          <div class="mb-3 row">
+            <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+            <div class="col-sm-10">
+              <input type="text" id="nombre" placeholder="Nombre" formControlName="nombre" class="form-control"
+                     [class.is-invalid]="form.controls.nombre.invalid && form.controls.nombre.touched" />
+              <div *ngIf="form.controls.nombre.invalid && form.controls.nombre.touched" class="invalid-feedback">
+                Nombre es requerido.
+              </div>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="email" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+              <input type="email" id="email" placeholder="Email" formControlName="email" class="form-control"
+                     [class.is-invalid]="form.controls.email.invalid && form.controls.email.touched" />
+              <div *ngIf="form.controls.email.invalid && form.controls.email.touched" class="invalid-feedback">
+                Email es requerido.
+              </div>
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="telefono" class="col-sm-2 col-form-label">Teléfono</label>
+            <div class="col-sm-10">
+              <input type="tel" id="telefono" placeholder="Teléfono" formControlName="telefono" class="form-control"
+                     [class.is-invalid]="form.controls.telefono.invalid && form.controls.telefono.touched" />
+              <div *ngIf="form.controls.telefono.invalid && form.controls.telefono.touched" class="invalid-feedback">
+                Teléfono es requerido.
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer d-flex justify-content-end">
+        <button type="button" class="btn btn-sm btn-success me-1" (click)="saveCliente()">Enviar</button>
+        <button type="button" class="btn btn-sm btn-warning" (click)="cancel()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  
